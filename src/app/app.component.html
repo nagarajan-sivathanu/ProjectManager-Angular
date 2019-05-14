@@ -1,0 +1,20 @@
+<div class="jumbotron">
+  <div class="container-fluid">
+      <div class="navbar-header">
+          <a id="home"  style="color:bisque;font-family: fantasy" 
+             class="navbar-brand" routerLink="/" routerLinkActive="active">Home</a>
+          <a id="addProject" style="color:bisque;font-family: fantasy" 
+             class="navbar-brand" routerLink="/projectDetails" routerLinkActive="active"  >Add Project</a>
+          <a id="addTask" style="color:bisque;font-family: fantasy" 
+             class="navbar-brand" routerLink="/addTask" routerLinkActive="active">Add Task</a>   
+          <a id="addUser" style="color:bisque;font-family: fantasy" 
+             class="navbar-brand" routerLink="/userDetails" routerLinkActive="active" >Add User</a>   
+          <a id="viewTask" style="color:bisque;font-family: fantasy" 
+             class="navbar-brand" routerLink="/viewTask" routerLinkActive="active" >View Task</a>
+        </div>
+    <br>
+    <h1 id="appTitle" class="font-weight-bold" style="color:rgb(176, 173, 240);font-family: cursive" >{{ title }}..!</h1>
+    <p class="lead" style="color:rgb(176, 173, 240);font-style: italic;">Project management is the practice of initiating, planning, executing, controlling, and closing the work of a team to achieve specific goals and meet specific success criteria at the specified time.</p>
+  </div>
+</div>
+<router-outlet></router-outlet>

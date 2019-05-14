@@ -1,0 +1,77 @@
+<div class="container">
+  <h4>Add New User....</h4>  <br>
+  <form id="addUserForm" class="col-sm-6" (ngSubmit)="onSubmit()" #f="ngForm">
+      <div class="row">
+        <div class="col-sm-3">
+          <label for="firstName">FirstName:</label>
+        </div>
+        <div class="col-sm-9" >
+          <input 
+              class="form-control" 
+              type="text" 
+              placeholder="Enter First Name" 
+              id="firstName" 
+              ngModel 
+              name="firstName" 
+              required
+              #firstName='ngModel'
+            >
+            <span class="help-block"
+                  *ngIf="!firstName.valid && firstName.touched">Please enter valid First Name</span>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-sm-3">
+          <label for="lastName">LastName:</label>
+        </div>
+        <div class="col-sm-9" >
+          <input 
+              class="form-control" 
+              type="text" 
+              placeholder="Enter Last Name" 
+              id="lastName" 
+              ngModel 
+              name="lastName" 
+              required
+              #lastName='ngModel'
+            >
+            <span class="help-block"
+                  *ngIf="!lastName.valid && lastName.touched">Please enter valid Last Name</span>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-sm-3">
+          <label for="empID">Employee ID:</label>
+        </div>
+        <div class="col-sm-9" >
+          <input 
+              class="form-control" 
+              type="text" 
+              placeholder="Enter Employee ID" 
+              id="empID" 
+              ngModel 
+              name="empID" 
+              required
+              #empID='ngModel'
+            >
+            <span class="help-block"
+                  *ngIf="!empID.valid && empID.touched">Please enter valid Employee ID</span>
+        </div>
+      </div>
+      <br>
+      <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-3">
+            <button id="AddUserButton"
+                    class="btn btn-dark"  
+                    type="submit" 
+                    [disabled]="!firstName.valid || !lastName.valid || !empID.valid">Add User</button>
+        </div>
+        <div class="col-sm-3">
+          <button type="reset"  class="btn btn-dark" (click)="clearForm()">Reset</button>
+        </div>
+      </div>  
+  </form>
+</div>

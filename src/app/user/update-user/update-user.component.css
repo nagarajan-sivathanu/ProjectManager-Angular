@@ -1,0 +1,7 @@
+input.ng-invalid.ng-touched, select.ng-invalid.ng-touched{
+    border: 3px solid red;
+}
+span{
+    font-weight: bold;
+    color:rgb(211, 9, 9)
+}

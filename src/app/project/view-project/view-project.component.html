@@ -1,0 +1,78 @@
+<div class="container">
+  <div class="col-sm-6">
+    <div class="row">
+        <div class="col-sm-3 ">Search By:</div>
+        <div class="col-sm-9">
+          <input type="text" [(ngModel)]="searchText" placeholder="Search By Project Title" style="width: 100%;">
+       </div>  
+    </div>
+    <br>
+    <div class="row">
+          <div class="col-sm-3 ">Sort By:</div>
+            
+          <div class="col-sm-2">
+              <button class="btn btn-dark btn-sm" (click)="onSortByStartDate()">Start Date</button>
+          </div>
+          <div class="col-sm-2">
+              <button class="btn btn-dark btn-sm" (click)="onSortByEndDate()">End Date</button>
+          </div>
+
+          <div class="col-sm-2">
+              <button class="btn btn-dark btn-sm" (click)="onSortByPriority()">Priority</button>
+          </div>
+          <div class="col-sm-2">
+              <button class="btn btn-dark btn-sm" (click)="onSortByCompleted()">Completed</button>
+          </div>
+    </div>
+    <br>
+        <div class="row">
+          <div class="col-sm-12">
+            <hr>
+          </div>
+        </div>     
+        <div class="row" *ngFor="let project of filteredProjects| projectSearch : searchText">
+            <div class="col-sm-8">
+            <div class="project-block1">
+              <div class="row">
+                  <div class="col-sm-2">Project:</div>
+                  <div class="col-sm-10">{{project.projectName}}</div>
+              </div>
+              <div class="row"><div class="col-sm-12">&nbsp;</div></div>
+              <div class="row">
+                  <div class="col-sm-4">No Of Tasks:</div>
+                  <div class="col-sm-1" >{{getNoOfTasks(project,'total')}}</div>
+                  <div class="col-sm-1"></div>
+                  <div class="col-sm-4">Completed:</div>
+                  <div class="col-sm-1">{{completedTasks}}</div>
+              </div>
+              <div class="row">
+                  <div class="col-sm-2">StartDate:</div>
+                  <div class="col-sm-4" style="text-align:right;">{{project.startDate|date:'dd-MM-yy'}}</div>
+                  
+                  <div class="col-sm-2">EndDate:</div>
+                  <div class="col-sm-4" style="text-align:right;">{{project.endDate|date:'dd-MM-yy'}}</div>
+              </div>
+            </div>
+            <br>
+          </div>
+          <div class="col-sm-2">
+            <div class="project-block1">
+                <div class="row"><div class="col-sm-12">&nbsp;</div></div>
+                <div class="row"><div class="col-sm-12" style="text-align: center;">Priority</div></div>
+                <div class="row"><div class="col-sm-12" style="text-align: center;">{{project.priority}}</div></div>
+                <div class="row"><div class="col-sm-12">&nbsp;</div></div>
+            </div>
+          </div>
+          <div class="col-sm-2">
+                  <div class="row">
+                      <button class="btn btn-dark btn-sm" style="width:100%;"  [disabled]="isActive(project)" (click)="onUpdate(project)">Update</button>
+                  </div>
+                  <br>
+                  <div class="row">
+                      <button class="btn btn-dark btn-sm" style="width:100%;"  [disabled]="isActive(project)" (click)="onSuspend(project)">Suspend</button>
+                  </div>
+
+          </div>
+        </div>
+  </div>
+</div>

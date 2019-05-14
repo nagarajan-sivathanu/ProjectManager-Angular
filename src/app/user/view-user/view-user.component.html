@@ -1,0 +1,64 @@
+<div class="container">
+  <div class="row">
+    <div class="col-sm-3">
+      <input type="text" [(ngModel)]="searchText" placeholder="Search">
+    </div>  
+       Sort:
+    <div class="col-sm-1">
+        <button class="btn btn-dark btn-sm" (click)="onSortByFName()">First Name</button>
+    </div>
+    <div class="col-sm-1">
+        <button class="btn btn-dark btn-sm" (click)="onSortByLName()">Last Name</button>
+    </div>
+    <div class="col-sm-1">
+        <button class="btn btn-dark btn-sm" (click)="onSortByID()">ID </button>
+    </div>
+  </div>
+</div>
+<br>
+
+
+<div class="container">
+  <div class="row">
+    <div class="col-sm-6">
+      <hr>
+    </div>
+  </div>
+  <div id="rowList"  *ngFor="let user of filteredUserList | userSearch : searchText">    
+      <div class="row">
+        <div class="col-sm-2">
+          <label class="font-weight-bold">First Name</label>
+        </div>
+        <div class="col-sm-3">
+            <input type='text' [readonly]='true' [value]='user.empFirstName'>
+        </div>
+        <div class="col-sm-2">
+            <button class="btn btn-dark btn-sm" [disabled]="isActive(user)" (click)="onEdit(user)">Edit User</button>
+        </div>
+      </div>
+      <div class="row">
+          <div class="col-sm-2">
+            <label class="font-weight-bold">Last Name</label>
+          </div>
+          <div class="col-sm-3">
+              <input type='text' [readonly]='true' [value]='user.empLastName'>
+          </div>
+          <div class="col-sm-2">
+              <button class="btn btn-dark btn-sm" [disabled]="isActive(user)" (click)="onEnd(user)" >End User</button>
+            </div>
+      </div>
+      <div class="row">
+          <div class="col-sm-2">
+            <label class="font-weight-bold">Exployee ID</label>
+          </div>
+          <div class="col-sm-4">
+              <input type='text' [readonly]='true' [value]='user.empID'>
+          </div>
+      </div>
+      <div class="row">
+        <div class="col-sm-6">
+          <hr>
+        </div>
+      </div>
+    </div>
+</div>  

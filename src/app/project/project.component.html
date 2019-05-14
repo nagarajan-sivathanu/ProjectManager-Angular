@@ -1,0 +1,10 @@
+<div *ngIf="isAddRequest">
+  <app-add-project></app-add-project>
+</div>
+<div *ngIf="!isAddRequest">
+  <app-update-project (addRequest)="typeOfRequest($event)"></app-update-project>
+</div>
+<br>
+<hr class="horizonLine">
+<br>
+<app-view-project (addRequest)="typeOfRequest($event)"></app-view-project>

@@ -1,0 +1,7 @@
+.jumbotron   {
+    background-image:url('./shared/image2.jpg');
+    /*background-color: black;*/
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+

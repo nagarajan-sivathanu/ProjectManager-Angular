@@ -1,0 +1,137 @@
+<div class="container">
+  <div class="col-lg-8 col-sm-12">
+    <div class="row">
+      <h4>Search & View Tasks</h4>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-3">
+          <label for="prjtName">Project:</label>
+        </div>
+        <div class="col-sm-7">
+            <input 
+              class="form-control" 
+              type="text" 
+              id="prjtName" 
+              [(ngModel)]="projectName"
+              name="prjtName" 
+              #prjtName='ngModel'
+              [readonly]="true"
+              [required]="true"
+            >        
+          </div>
+        <div class="col-sm-2 clearfix">
+            <button id="projectSearchButton"
+              class="btn btn-dark float-right"
+              type="button"
+              (click)="openPrjModal()"
+              data-target="#projectModal"
+              >Search 
+            </button>
+          </div>
+      </div>
+    <br>
+    <div class="row">
+          <div class="col-lg-3 col-sm-12">Sort By:</div>
+           
+          <div class="col-lg-7 col-sm-12 row  padding-0">
+              <div class="col-lg-4 col-sm-12">
+                  <button class="btn btn-dark btn-sm" (click)="onSortByStartDate()">Start Date</button>
+              </div>
+              <div class="col-lg-3 col-sm-12">
+                  <button class="btn btn-dark btn-sm" (click)="onSortByEndDate()">End Date</button>
+              </div>          
+              <div class="col-lg-2 col-sm-12">
+                  <button class="btn btn-dark btn-sm " (click)="onSortByPriority()" >Priority</button>
+              </div>
+              <div class="col-lg-3 col-sm-12 padding-0 clearfix">
+                  <button class="btn btn-dark btn-sm float-right" (click)="onSortByCompleted()">Completed</button>
+              </div>
+        </div>
+    </div>
+  </div>
+</div>
+<hr>
+<br>
+<div class="container" *ngIf="projectName">
+    <div class="row">
+      <div class="col-lg-2">
+        <label class="font-weight-bold">Task</label>
+      </div>
+      <div class="col-lg-2">
+        <label class="font-weight-bold">Parent</label>
+      </div>
+      <div class="col-lg-1">
+        <label class="font-weight-bold">Priority</label>
+      </div>
+      <div class="col-lg-2">
+        <label class="font-weight-bold">Start Date</label>
+      </div>
+      <div class="col-lg-2">
+        <label class="font-weight-bold">End Date</label>
+      </div>
+    </div>
+    <hr>
+    <div id="rowList" class="row" *ngFor="let task of filteredTasks">
+        <div class="col-lg-2">
+          <textarea [readonly]='true'>{{task.taskName}}</textarea>
+        </div>
+        <div class="col-lg-2">
+          <textarea *ngIf="task.parentTask" [readonly]='true'>{{task.parentTask.taskName}}</textarea>
+          <textarea *ngIf="!task.parentTask" [readonly]='true'></textarea>
+        </div>
+        <div class="col-lg-1">
+          <label>{{task.priority}}</label>
+        </div>
+        <div class="col-lg-2">
+          <label>{{task.startDate|date:'yyyy-MM-dd'}}</label>
+        </div>
+        <div class="col-lg-2">
+          <label>{{task.endDate|date:'yyyy-MM-dd'}}</label>
+        </div>
+        <div class="col-lg-1">
+            <button class="btn btn-dark btn-sm" [disabled]="isActive(task)" (click)="onEdit(task)">Edit Task</button>
+        </div>
+        <div class="col-lg-1">
+          <button class="btn btn-dark btn-sm" [disabled]="isActive(task)" (click)="onEnd(task)">End Task</button>
+        </div>
+  </div>
+  <br><hr><br>
+  <div *ngIf="filteredTasks.length==0">
+    <h3 class="alertSym"> No Tasks Available for this project</h3>
+  </div>
+  </div>
+
+<!-- Project MODAL -->
+<div id="projectModal" class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':displayPrjModal}">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title" 
+              style="align-content: left;color:blue;font-family: 'Lucida Sans', 
+                    'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', 
+                    Geneva, Verdana, sans-serif"
+              >Select the Project
+          </h4>
+          <button type="button" class="close" aria-label="Close" (click)="closePrjModal()">
+            <span aria-hidden="true">&times;</span>
+          </button>            
+        </div>
+        <div class="modal-body">          
+          <div class="container-fluid">
+          <ul class="managers">
+              <input name="search" [(ngModel)]="searchText" type="text" placeholder="Search" width="100%">
+              <li *ngFor="let project of filteredProjects | projectSearch : searchText"
+                [class.selected]="project === selectedProject"
+                (click)="onSelectProject(project)">
+                <span class="badge">{{project.projectID}}</span> {{project.projectName}}
+              </li>
+            </ul>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button id="projectModalCloseButton" type="button" class="btn btn-default" (click)="closePrjModal()" >Close</button>
+        </div>
+      </div><!-- /.modal-content -->
+    </div><!-- /.modal-dialog -->
+  </div><!-- /.modal !-->

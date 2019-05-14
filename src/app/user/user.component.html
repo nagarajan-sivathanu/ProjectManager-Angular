@@ -1,0 +1,10 @@
+<div *ngIf="isAddRequest">
+  <app-add-user></app-add-user>
+</div>
+<div *ngIf="!isAddRequest">
+  <app-update-user (addRequest)="typeOfRequest($event)"></app-update-user>
+</div>
+<br>
+<hr class="horizonLine">
+<br>
+<app-view-user (addRequest)="typeOfRequest($event)"></app-view-user>

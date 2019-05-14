@@ -1,0 +1,202 @@
+<div class="container">
+  <h4>Add New Project....</h4>  <br>
+  <form id="addProjectForm" class="col-sm-6" (ngSubmit)="onSubmit()" #f="ngForm">
+    <div class="row">
+      <div class="col-sm-3">
+        <label for="projectName">Project:</label>
+      </div>
+      <div class="col-sm-9" >
+        <input 
+            class="form-control" 
+            type="text" 
+            placeholder="Enter Project Name" 
+            id="projectName" 
+            ngModel
+            name="projectName" 
+            required
+            #projectName='ngModel'
+          >
+          <span class="help-block"
+                *ngIf="!projectName.valid && projectName.touched">Please enter valid Project Name</span>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-3"> </div>
+        <div class="col-sm-9"> 
+            <input
+            class="check"   
+            type="checkbox"
+            id="isPrjDateEnabled"
+            name="isPrjDateEnabled"
+            ng-model
+            (change)="isCheckBoxClicked($event)"
+          >&nbsp;&nbsp;&nbsp;Set Start Date & End Date
+        </div>
+    </div>
+    <br>
+    <div ngModelGroup="dateValues" #dateValidation="ngModelGroup" dateValidator>
+    <div class="row">
+       <div class="col-sm-3"> 
+          Start Date
+      </div>
+      <div class="col-sm-9">     
+          
+          <input 
+            *ngIf="requireStartAndEndDate"
+            class="form-control" 
+            type="date" 
+            id="startDate"
+            [(ngModel)]="stDate"
+            name="startDate"             
+            #startDat='ngModel'
+            [min]="currentDate"
+            required>
+            
+          <input 
+            *ngIf="!requireStartAndEndDate"
+            class="form-control" 
+            type="date" 
+            id="startDate"
+            ngModel
+            [readonly]="true"
+            name="startDate"             
+            #startDat='ngModel'>
+      </div>   
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-3"> 
+            End Date     
+        </div>
+        <div class="col-sm-9">     
+            <input 
+              *ngIf="requireStartAndEndDate"
+              class="form-control" 
+              type="date" 
+              id="endDate"
+              [(ngModel)]="eDate"
+              name="endDate" 
+              #endDat='ngModel'
+              [min]="currentDate"
+              required>
+            <input 
+              *ngIf="!requireStartAndEndDate"
+              class="form-control" 
+              type="date" 
+              id="endDate"
+              ngModel
+              [readonly]="true"
+              name="endDate" 
+              #endDat='ngModel'>
+        </div>     
+    </div>
+    <div class="row">
+        <div class="col-sm-3">
+        </div>
+        <div class="col-sm-9" *ngIf="!dateValidation.valid && requireStartAndEndDate==true">          
+            <span class="help-block" *ngIf="dateValidation.errors">
+              Start & End Dates should be valid and end date should on greater than or equal to start date
+            </span>
+        </div> 
+      </div>
+  </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-3">
+          <label for="projPriority">Priority:</label>
+        </div>
+        <div class="col-sm-9">
+          <input 
+            class="form-control" 
+            type="range" 
+            id="projPriority" 
+            min=0 
+            max=30 
+            step=1 
+            [(ngModel)]="priority"
+            name="projPriority"
+            
+          >
+        </div>
+    </div>
+    <br>
+    <div class="row">
+      <div class="col-sm-3">
+        <label for="manager">Manager:</label>
+      </div>
+      <div class="col-sm-6">
+          <input 
+            class="form-control" 
+            type="text" 
+            id="manager"  
+            [(ngModel)] ="managerSearch"
+            name="manager"
+            #manager='ngModel'
+            [readonly]="true"
+            [required]="true"
+          >
+      </div>
+      <div class="col-sm-3 clearfix">
+        <button id="managerSearchButton"
+                class="btn btn-dark float-right"
+                type="button"
+                (click)="openModal()"
+                >Search 
+        </button>
+      </div>
+    </div>
+    <br>
+    <div class="row">
+        <div class="col-sm-8"> </div>
+        <div class="col-sm-2 clearfix">
+            <button id="addProjectButton"
+                    class="btn btn-dark float-right"
+                    type="button"
+                    type="submit" 
+                    [disabled]="!projectName.valid || (!manager.valid)"        
+                    >Add 
+            </button>
+        </div>
+        <div class="col-sm-2 clearfix">
+            <button id="resetButton"
+                    class="btn btn-dark float-right"
+                    type="reset"
+                    (click)="clearForm()"
+                    >Reset 
+            </button>
+        </div>
+        
+    </div>
+  </form>
+  <div class="backdrop" [ngStyle]="{'display':display}"></div>
+    <div class="modal" tabindex="-1" role="dialog"  [ngStyle]="{'display':display}">
+      <div class="modal-dialog" role="document">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h4 class="modal-title" style="align-content: left;color:blue;font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif">Select Manager for the Project</h4>
+            <button type="button" class="close" aria-label="Close" (click)="onCloseHandled()">
+              <span aria-hidden="true">&times;</span>
+            </button>
+            
+          </div>
+          <div class="modal-body">
+           
+            <div class="container-fluid">
+            <ul class="managers">
+                <input name="search" [(ngModel)]="searchText" type="text" placeholder="Search" width="100%">
+                <li *ngFor="let user of filteredUserList | userSearch : searchText"
+                  [class.selected]="user === selectedManager"
+                  (click)="onSelect(user)">
+                  <span class="badge">{{user.empID}}</span> {{user.empFirstName}}&nbsp;{{user.empLastName}}
+                </li>
+              </ul>
+            </div>
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" (click)="onCloseHandled()" >Close</button>
+          </div>
+        </div><!-- /.modal-content -->
+      </div><!-- /.modal-dialog -->
+    </div><!-- /.modal !-->
+  </div>
